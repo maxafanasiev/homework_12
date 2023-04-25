@@ -4,6 +4,7 @@ import oop
 
 address_book = oop.AddressBook()
 bot_working = True
+save_path = 'address_book.bin'
 clear = lambda: os.system('clear')
 
 
@@ -30,9 +31,8 @@ def input_error(func):
 
 def start():
     clear()
-    address_book.load_from_file("address_book.json")
-    print("CLI Address book bot is running...")
-    print("Address book loaded.")
+    address_book.load_from_file(save_path)
+
 
 
 def show_page(page_number=1, count=5):
@@ -52,8 +52,8 @@ def close():
     clear()
     global bot_working
     bot_working = False
-    address_book.save_to_file('address_book.json')
-    return ("Good bye!\n Bot stopped.")
+    address_book.save_to_file(save_path)
+    return ("Good bye! Bot stopped.")
 
 
 def hello():
@@ -129,10 +129,10 @@ def showall():
 
 
 
-def phone(name):
+def find(string:str):
     clear()
-    rec = address_book[name]
-    return rec.print_record()
+    return address_book.find(string)
+    
 
 
 def unknown_command():
@@ -152,7 +152,7 @@ COMMANDS = {'hello':hello,
             'add birthday': add_birthday,
             'change phone':change_phone,
             'delete phone': delete_phone,
-            'find phone':phone,
+            'find ':find,
             'show page':show_page,
             'show all':showall,
             'good bye':close,

@@ -23,14 +23,21 @@ class AddressBook(UserDict):
                 count += 1
             elif i >= end:
                 break
-            
-        if count == 0 and page != 1:
-            yield from self.iterator(n, page=page-1)
 
+
+    def find(self, string:str):
+        output = ''
+        for key in self.keys():
+            rec = self[key]
+            phones = '.'.join(phone.value for phone in rec.phones)
+            if string in str(rec.name.value) or string in phones:
+                output += rec.print_record()
+        return output
     
     def save_to_file(self, filename):
         with open(filename, mode="wb") as file:
-         pickle.dump(self.data, file)
+            pickle.dump(self.data, file)
+            print("Address book saved.")
 
 
     def load_from_file(self, filename):
@@ -40,6 +47,7 @@ class AddressBook(UserDict):
                     self.data = {}
                 else:
                     self.data = pickle.load(f)
+                    print("Address book loaded.")
         except (FileNotFoundError, pickle.UnpicklingError):
             with open(filename, 'wb') as f:
                 self.data = {}
