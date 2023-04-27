@@ -71,7 +71,7 @@ def add_record(name, phone='' ,birthday=''):
     rec = oop.Record(rec_name, rec_phone, rec_bd)
 
     address_book.addRecord(rec)
-    return rec.print_record()
+    return str(rec)
 
 
 def change_phone(name, old_phone, new_phone):
@@ -82,7 +82,7 @@ def change_phone(name, old_phone, new_phone):
     n_ph = oop.Phone()
     n_ph.value = new_phone
     rec.change_phone(o_ph, n_ph)
-    return rec.print_record()
+    return str(rec)
 
 
 def add_phone(name, phone):
@@ -91,7 +91,7 @@ def add_phone(name, phone):
     ph = oop.Phone()
     ph.value = phone
     rec.add_phone(ph)
-    return rec.print_record()
+    return str(rec)
 
 
 def add_birthday(name, birthday):
@@ -100,7 +100,7 @@ def add_birthday(name, birthday):
     bd = oop.Birthday()
     bd.value = birthday
     rec.add_birthday(bd)
-    return rec.print_record()
+    return str(rec)
 
 
 def delete_phone(name, phone):
@@ -109,7 +109,7 @@ def delete_phone(name, phone):
     ph = oop.Phone()
     ph.value = phone
     rec.del_phone(ph)
-    return rec.print_record()
+    return str(rec)
 
 
 def days_to_birthday(name):

@@ -41,7 +41,7 @@ class AddressBook(UserDict):
                 out += '| {:^20} | {:^50} | {:^20} |\n'.format('Name', 'Phones', 'Birthday date')
                 out += '-'*100 + '\n'
                 for record in page:
-                    out += record[1].print_record()
+                    out += str(record[1])
                 page_num += 1
         else:
             out += '| {:^96} |\n'.format('Adress book is empty.')
@@ -55,7 +55,7 @@ class AddressBook(UserDict):
             rec = self[key]
             phones = '.'.join(phone.value for phone in rec.phones)
             if string in str(rec.name.value) or string in phones:
-                output += rec.print_record()
+                output += str(rec)
         return output
     
     
@@ -136,8 +136,8 @@ class Record:
             self.phones.append(phone)
         self.birthday = birthday
 
-
-    def print_record(self):
+    
+    def __str__(self):
         if self.phones:
             phones = ', '.join(phone.value for phone in self.phones)
         else:
