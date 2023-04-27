@@ -12,17 +12,41 @@ class AddressBook(UserDict):
             print("Name already exist. Try add phone command for add extra phone.")
 
 
-    def iterator(self, n, page=1):
-        count = 0
-        start = (page - 1) * n
-        end = page * n
-        
-        for i, key in enumerate(self.keys()):
-            if i >= start and i < end:
-                yield key, self[key]
-                count += 1
-            elif i >= end:
-                break
+    def iterator(self, n):
+        self.page = 0
+        self.record_per_page = n
+        self.data = list(self.data.items())
+
+        while True:
+            start = self.page * self.record_per_page
+            end = start + self.record_per_page
+            page_record = self.data[start:end]
+
+            if not page_record:
+                return 
+
+            self.page += 1
+
+            yield page_record
+
+
+    def print_all(self):
+        page_num = 1
+        out = '-'*100 + '\n'
+        if self.keys():
+            for page in self.iterator(5):
+                out += '-'*100 + '\n'
+                out += ' {:^98} \n'.format(f"Page #{page_num}")
+                out += '-'*100 + '\n'
+                out += '| {:^20} | {:^50} | {:^20} |\n'.format('Name', 'Phones', 'Birthday date')
+                out += '-'*100 + '\n'
+                for record in page:
+                    out += record[1].print_record()
+                page_num += 1
+        else:
+            out += '| {:^96} |\n'.format('Adress book is empty.')
+        out += '-'*100 + '\n'
+        return out
 
 
     def find(self, string:str):
@@ -33,6 +57,7 @@ class AddressBook(UserDict):
             if string in str(rec.name.value) or string in phones:
                 output += rec.print_record()
         return output
+    
     
     def save_to_file(self, filename):
         with open(filename, mode="wb") as file:
@@ -52,33 +77,6 @@ class AddressBook(UserDict):
             with open(filename, 'wb') as f:
                 self.data = {}
                 pickle.dump(self.data, f)
-
-
-    def show_page(self, page_number=1, count=5):
-        out = '|{:^98}|\n'.format(f" Page #{page_number}   |  Max {count} contacts per page.")
-        out += '-'*100 + '\n'
-        out += '| {:^20} | {:^50} | {:^20} |\n'.format('Name', 'Phones', 'Birthday date')
-        out += '-'*100 + '\n'
-        if self.keys():
-            for key, value in self.iterator(int(count), page=int(page_number)):
-                out += value.print_record()
-        else:
-            out += '| {:^96} |\n'.format('Adress book is empty.')
-        out += '-'*100 + '\n'
-        return out
-
-
-    def print_all(self):
-        out = '-'*100 + '\n'
-        out += '| {:^20} | {:^50} | {:^20} |\n'.format('Name', 'Phones', 'Birthday date')
-        out += '-'*100 + '\n'
-        if self.keys():
-            for key in self.keys():
-                out += self[key].print_record()
-        else:
-            out += '| {:^96} |\n'.format('Adress book is empty.')
-        out += '-'*100 + '\n'
-        return out
 
 
 class Field:
@@ -190,7 +188,4 @@ class Record:
             for phone in self.phones:
                 if old_phone.value == phone.value:
                     phone.value = new_phone.value
-
-            # self.del_phone(old_phone)
-            # self.add_phone(new_phone)
             print("Phone changed.")

@@ -25,6 +25,7 @@ def input_error(func):
             print('This name found! Enter another name.')
             return func(*args,**kwargs)
         except ValueError:
+            print('Error. Wrong value.')
             return func(*args,**kwargs)
     return(inner)
 
@@ -32,12 +33,6 @@ def input_error(func):
 def start():
     clear()
     address_book.load_from_file(save_path)
-
-
-
-def show_page(page_number=1, count=5):
-    clear()
-    return address_book.show_page(page_number, count)
 
 
 def helper():
@@ -153,7 +148,6 @@ COMMANDS = {'hello':hello,
             'change phone':change_phone,
             'delete phone': delete_phone,
             'find ':find,
-            'show page':show_page,
             'show all':showall,
             'good bye':close,
             'exit':close,
