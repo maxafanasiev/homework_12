@@ -27,6 +27,10 @@ def input_error(func):
         except ValueError:
             print('Error. Wrong value.')
             return func(*args,**kwargs)
+        except AttributeError:
+            print('Error. Wrong attribute.')
+            return func(*args,**kwargs)
+        
     return(inner)
 
 

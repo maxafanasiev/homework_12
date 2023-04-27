@@ -14,13 +14,13 @@ class AddressBook(UserDict):
 
     def iterator(self, n=10):
         self.page = 0
-        self.record_per_page = n
-        self.data = list(self.data.items())
+        self.record_per_page = int(n)
+        self.out = list(self.data.items())
 
         while True:
             start = self.page * self.record_per_page
             end = start + self.record_per_page
-            page_record = self.data[start:end]
+            page_record = self.out[start:end]
 
             if not page_record:
                 return 
