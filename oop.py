@@ -12,7 +12,7 @@ class AddressBook(UserDict):
             print("Name already exist. Try add phone command for add extra phone.")
 
 
-    def iterator(self, n):
+    def iterator(self, n=10):
         self.page = 0
         self.record_per_page = n
         self.data = list(self.data.items())
