@@ -124,7 +124,7 @@ def days_to_birthday(name):
 
 def showall():
     clear()
-    return address_book.print_all()
+    return address_book
 
 
 

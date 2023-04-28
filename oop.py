@@ -30,7 +30,7 @@ class AddressBook(UserDict):
             yield page_record
 
 
-    def print_all(self):
+    def __str__(self):
         page_num = 1
         out = '-'*100 + '\n'
         if self.keys():
